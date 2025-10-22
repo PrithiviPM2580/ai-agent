@@ -1,15 +1,3 @@
-import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
-import config from "./src/config/env.config";
-
-(async () => {
-  const model = new ChatGoogleGenerativeAI({
-    model: config.MODEL,
-    apiKey: config.GEMINI_API_KEY,
-    temperature: 0.7,
-    maxOutputTokens: 2048,
-  });
-
-  const respones = await model.invoke("Hello");
-
-  console.log(respones.content);
-})();
+//Phase 1: Basic LLM Call
+// import "./src/langchain/phase1/basic_llm_call";
+import "./src/langchain/phase1/prompt_template";
