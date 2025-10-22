@@ -9,4 +9,7 @@ import config from "./src/config/env.config";
     maxOutputTokens: 2048,
   });
 
+  const respones = await model.invoke("Hello");
+
+  console.log(respones.content);
 })();
