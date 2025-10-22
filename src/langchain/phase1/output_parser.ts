@@ -23,7 +23,8 @@ Format: ${parser.getFormatInstructions()}
     maxOutputTokens: 2048,
   });
   const response = await model.invoke(prompt);
-  const parsed = await parser.parse(response.content as string);
+  console.log(response);
 
+  const parsed = await parser.parse(response.content as string);
   console.log(parsed);
 })();
