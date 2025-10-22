@@ -27,10 +27,7 @@ const prompt = new PromptTemplate({
     format_instructions: parser.getFormatInstructions(),
   },
   template: `
-You are a senior software developer.
-
-Write a short "Hello, World!" program in {language} that runs inside {ide}.
-Include a short description of what the code does.
+ Write a program to calculate the sum of two numbers pick a random number and use the {language} programming language and use the {ide} IDE.
 
 Return the response strictly as JSON with the keys language, ide, description, and code:
 {format_instructions}
