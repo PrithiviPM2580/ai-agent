@@ -5,4 +5,5 @@
 // import "./src/langchain/phase1/chains";
 
 //Phase 2: Tools and Agent
-import "./src/langchain/phase2-Tools_And_Agent/define-tool";
+// import "./src/langchain/phase2-Tools_And_Agent/connect_tool_to_agent";
+import "./src/langchain/phase2-Tools_And_Agent/add_multiple_tools_to_agent";
