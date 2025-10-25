@@ -1,1 +1,1 @@
-import "./src/lanchain-document/tools/memory_store_tools";
+import "./src/lanchain-document/short-term-memory/basic_memory";
