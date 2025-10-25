@@ -5,9 +5,9 @@ import config from "../../config/env.config";
 import connectToDatabase from "../../config/database.config";
 
 (async () => {
-  const client = await connectToDatabase();
+  const { client, db } = await connectToDatabase();
 
-  const checkpointer = new MongoDBSaver({ client, dbName: "lanchain" });
+  const checkpointer = new MongoDBSaver({ client, dbName: "langchain" });
 
   const model = new ChatGoogleGenerativeAI({
     model: config.MODEL,
@@ -43,6 +43,28 @@ import connectToDatabase from "../../config/database.config";
     { configurable: { thread_id: "thread_2" } } // 🚫 New thread — forgets
   );
   console.log("Response 3:", res3.messages[res3.messages.length - 1].content);
+  const writes = await db
+    .collection("checkpoint_writes")
+    .find({ thread_id: "thread_1" })
+    .toArray();
+
+  console.log("🧠 Chat history for thread_1:\n");
+
+  for (const w of writes) {
+    if (w.channel === "messages") {
+      const decoded = JSON.parse(w.value.buffer.toString());
+
+      // User message
+      if (decoded[0]?.role === "user") {
+        console.log(`👤 User: ${decoded[0].content}`);
+      }
+
+      // AI message
+      if (decoded[0]?.kwargs?.content) {
+        console.log(`🤖 AI: ${decoded[0].kwargs.content}`);
+      }
+    }
+  }
 
   // ✅ 7️⃣ Close MongoDB connection
   await client.close();
