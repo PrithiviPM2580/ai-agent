@@ -71,10 +71,10 @@ const conversation = [
   { role: "user", content: "What did it build?" },
   { role: "ai", content: "A website for fish recipes." },
   { role: "user", content: "Was it popular?" },
-  //   { role: "ai", content: "Yes! It went viral among sea creatures." },
-  //   { role: "user", content: "What happened next?" },
-  //   { role: "ai", content: "The cat became famous and bought a yacht." },
-  //   { role: "user", content: "Then what?" },
+  { role: "ai", content: "Yes! It went viral among sea creatures." },
+  { role: "user", content: "What happened next?" },
+  { role: "ai", content: "The cat became famous and bought a yacht." },
+  { role: "user", content: "Then what?" },
 ];
 
 // 🧠 Run agent with memory
