@@ -98,7 +98,7 @@ const deleteUserInfo = tool(
 
 const humanInTheLoop = humanInTheLoopMiddleware({
   interruptOn: {
-    get_user_info: false,
+    get_user_info: true,
     save_user_info: true,
     update_user_info: true,
     delete_user_info: true,
