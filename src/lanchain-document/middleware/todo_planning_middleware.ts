@@ -1,6 +1,6 @@
 import { createAgent, HumanMessage, todoListMiddleware } from "langchain";
 import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
-import config from "./src/config/env.config";
+import config from "../../config/env.config";
 
 const model = new ChatGoogleGenerativeAI({
   model: config.MODEL,
