@@ -1,32 +1,61 @@
-import { createAgent, HumanMessage, todoListMiddleware } from "langchain";
 import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
+import { createAgent, tool } from "langchain"; // add .js if using ES modules
+import { z } from "zod";
 import config from "./src/config/env.config";
 
+// 🧠 Initialize the model
 const model = new ChatGoogleGenerativeAI({
   model: config.MODEL,
   apiKey: config.GEMINI_API_KEY,
+  temperature: 0.7,
+  maxOutputTokens: 1024,
 });
 
+const sumToolCode = tool(
+  async ({ language, task }) => {
+    console.log(`🧩 Writing code in ${language} for: ${task}`);
+
+    // ✅ Call the model directly here (not the agent)
+    const response = await model.invoke([
+      {
+        role: "user",
+        content: `Write a ${language} code for the following task: ${task}`,
+      },
+    ]);
+
+    return response.content; // Return the text
+  },
+  {
+    name: "sum_tool_code",
+    description:
+      "A tool that generates code for a given programming language and task.",
+    schema: z.object({
+      language: z.string().describe("The programming language"),
+      task: z.string().describe("The task to accomplish"),
+    }),
+  }
+);
+
+// 🧠 Create the agent
 const agent = createAgent({
   model,
-  middleware: [
-    todoListMiddleware({
-      systemPrompt:
-        "You are a project planner. Break user requests into actionable TODOs.",
-      toolDescription:
-        "Use this tool to write down TODOs with clear, specific steps.",
-    }),
-  ],
+  tools: [sumToolCode],
 });
 
+// 🚀 Run the agent
 (async () => {
   const result = await agent.invoke({
     messages: [
-      new HumanMessage("Plan how to build a full-stack e-commerce app"),
+      {
+        role: "user",
+        content: "Write a JavaScript code to find the sum of two numbers.",
+      },
     ],
   });
-  console.log("Tool Message: ", result.messages[1].content);
-  console.log("AI Response: ", result.messages[2].content);
-  console.log("🧠 Model Response:\n", result.messages);
-  //   console.log("✅ TODOs:\n", );
+
+  const codeMessage = result.messages.find(
+    (msg) => msg.name === "sum_tool_code"
+  );
+
+  console.log("✅ Generated Code:\n", codeMessage?.content || "No code found");
 })();
