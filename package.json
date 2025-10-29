@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/PrithiviPM2580/ai-agent#readme",
   "dependencies": {
-    "@langchain/core": "^1.0.1",
+    "@langchain/core": "^1.0.2",
     "@langchain/google-genai": "^1.0.0",
     "@langchain/langgraph": "^1.0.1",
     "@langchain/langgraph-checkpoint-mongodb": "^1.0.0",

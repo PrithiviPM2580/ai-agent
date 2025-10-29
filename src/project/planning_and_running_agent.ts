@@ -1,7 +1,7 @@
 import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
 import { z } from "zod";
 import { createAgent, HumanMessage, todoListMiddleware, tool } from "langchain";
-import config from "../../config/env.config"; // ✅ make sure your env file uses .js if using ES modules
+import config from "../config/env.config"; // ✅ make sure your env file uses .js if using ES modules
 
 // 🧩 Models
 const mainModel = new ChatGoogleGenerativeAI({
