@@ -124,6 +124,7 @@ const polishJokeTask = task("polishJokeTask", async (improvedJoke: string) => {
   return msg.text;
 });
 
+// Construct the workflow using functional API
 const workFlow = entrypoint("jokeMaker", async (topic: string) => {
   const originalJoke = await generateJokeTask(topic);
   if (checkPunchlineTask(originalJoke) === "Pass") {
