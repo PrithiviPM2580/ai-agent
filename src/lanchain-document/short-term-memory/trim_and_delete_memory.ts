@@ -12,20 +12,20 @@ const checkpointer = new MemorySaver();
 const manageMessagesMiddleware = createMiddleware({
   name: "TrimAndDelete",
   beforeModel: async (state) => {
-    const allMessages = state.messages;
-    console.log("\n🧩 Total messages in memory:", allMessages.length);
+    const allmGraphessages = state.messages;
+    console.log("\n🧩 Total messages in memory:", allmGraphessages.length);
 
-    if (allMessages.length > 10) {
+    if (allmGraphessages.length > 10) {
       console.log("🗑️ Too many messages — deleting oldest ones...");
 
-      const toDelete = allMessages
+      const toDelete = allmGraphessages
         .slice(0, 3) // only keep ones with valid id
         .map((m) => new RemoveMessage({ id: m.id! }));
       return { ...state, messages: toDelete };
     }
 
     // 2️⃣ Trim messages before sending to model
-    const trimmed = await trimMessages(allMessages, {
+    const trimmed = await trimMessages(allmGraphessages, {
       strategy: "last",
       maxTokens: 2,
       startOn: "human",

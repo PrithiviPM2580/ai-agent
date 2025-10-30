@@ -2,7 +2,7 @@ import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
 import {
   createAgent,
   tool,
-  llmToolSelectorMiddleware,
+  llmGraphToolSelectorMiddleware,
   HumanMessage,
 } from "langchain";
 import { z } from "zod";
@@ -89,7 +89,7 @@ const agent = createAgent({
   model: mainModel,
   tools: [],
   middleware: [
-    llmToolSelectorMiddleware({
+    llmGraphToolSelectorMiddleware({
       model: helperModel,
       // maxTools:2,
       // alwaysInclude:["sum-two-numbers"]

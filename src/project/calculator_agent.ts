@@ -72,7 +72,7 @@ const divide = tool(
   }
 );
 
-// Augment the LLM with tools
+// Augment the llmGraph with tools
 const toolsByName = {
   [add.name]: add,
   [multiply.name]: multiply,
@@ -94,12 +94,12 @@ const MessagesState = z.object({
   messages: z
     .array(z.custom<BaseMessage>())
     .register(registry, MessagesZodMeta),
-  llmCalls: z.number().optional(),
+  llmGraphCalls: z.number().optional(),
 });
 
 // Step 3: Define Model node
 import { SystemMessage } from "@langchain/core/messages";
-async function llmCall(state: z.infer<typeof MessagesState>) {
+async function llmGraphCall(state: z.infer<typeof MessagesState>) {
   return {
     messages: await modelWithTools.invoke([
       new SystemMessage(
@@ -107,7 +107,7 @@ async function llmCall(state: z.infer<typeof MessagesState>) {
       ),
       ...state.messages,
     ]),
-    llmCalls: (state.llmCalls ?? 0) + 1,
+    llmGraphCalls: (state.llmGraphCalls ?? 0) + 1,
   };
 }
 
@@ -143,11 +143,11 @@ async function shouldContinue(state: z.infer<typeof MessagesState>) {
 
 // Step 6: Build and compile the agent
 const agent = new StateGraph(MessagesState)
-  .addNode("llmCall", llmCall)
+  .addNode("llmGraphCall", llmGraphCall)
   .addNode("toolNode", toolNode)
-  .addEdge(START, "llmCall")
-  .addConditionalEdges("llmCall", shouldContinue, ["toolNode", END])
-  .addEdge("toolNode", "llmCall")
+  .addEdge(START, "llmGraphCall")
+  .addConditionalEdges("llmGraphCall", shouldContinue, ["toolNode", END])
+  .addEdge("toolNode", "llmGraphCall")
   .compile();
 
 //Invoke
